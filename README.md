@@ -35,13 +35,13 @@ Example setup on a Fedora machine:
 
 Fork my `mycli-exercise-1` repo into your own account.
 
-## Exercise 1 Requirements ##
+## Requirements ##
 Once this exercise is complete your CLI tool will:
-* Take input from a file which you will supply via an argument on the CLI `--file` https://docs.python.org/3/library/argparse.html#type - `type` set to `argparse.FileType()`
+* Have a configurable log file/path within the config file `mycli.conf`. A sample config `mycli.conf.example` is supplied. Copy the example file to `mycli.conf`. *We never put config files with secrets into git repos.* https://docs.python.org/3/library/configparser.html#quick-start
 * Have a debug flag set via an argument on the CLI `--debug` This will alter the behaviour of the logging. When debug is enabled the script will log to both stdout and to the log file including `DEBUG` level messages. https://docs.python.org/3/library/argparse.html#action - `action` set to `store_true`
     * `DEBUG` level log each line read and how many characters it is.
     * `INFO` level log relevant events like starting reading and done reading.
-* Have a configurable log file/path within the config file `mycli.conf`. A sample config `mycli.conf.example` is supplied. Copy the example file to `mycli.conf`. *We never put config files with secrets into git repos.* https://docs.python.org/3/library/configparser.html#quick-start
+* Take input from a file which you will supply via an argument on the CLI `--file` https://docs.python.org/3/library/argparse.html#type - `type` set to `argparse.FileType()`
 * Print each line of the file as it is processed in alphabetical order.
 * The input file is included in the repo: myfile.txt.
 
@@ -59,13 +59,44 @@ From here we'll create a feature branch from develop to begin adding the --file 
 [me@mypc mycli-exercise-1]$ git checkout -b feature/read_config_file
 ```
 
-First thing to keep in mind is defensively programming. Assume files are missing and inputs are bad. For now, just print out the value in the config file for the log file.
+## Exercise 1.2 - Reading from a config file. ##
+
+Break down the task into small parts. **For now lets start with, just printing out the value in the config file for the log file.** Start making changes to the code. First thing to keep in mind is defensively programming. Assume files are missing and inputs are bad.
 
 ### Hint: ###
 - Use `os.path.isfile()` https://docs.python.org/3/library/os.path.html to validate the config file is present. But you need the path to the file first.
 - You might be able to figure out the absolute path to the config file with the magic variable `__file__` https://docs.python.org/3/library/inspect.html#types-and-members and a combination of `os.path.x` functions.
 - Exit the script if there is no config file and print an error message. `sys.exit(1)`.
 - To use these modules you will need to import them at the top.
-- You will need to `.get()` the `logfile` variable from within the `mycli` section of the config.
+- You will need to `.get()` the `logfile` variable from within the `mycli` section of the config. Using `.get()` with a default allows you to handle missing config separately.
+
+If you just copied the sample config, the `logfile` value is `foo`. So at this stage, your script should produce output something like this:
+
+```
+[me@mypc mycli-exercise-1]$ python mycli.py
+/home/me/git/mycli-exercise-1/foo
+[me@mypc mycli-exercise-1]$
+```
+
+Once that is working, commit your changes.
+
+```
+[me@mypc mycli-exercise-1]$ git add mycli.py
+[me@mypc mycli-exercise-1]$ git commit -m 'Added config file reading.'
+```
 
 Once you have working code that reads the config, submit your branch for review (don't merge yet).
+
+## Exercise 1.3 - Accepting CLI Arguments ##
+
+Work in progress.
+
+* flags action store_true
+* files argparse.FileType('r') / strings
+
+## Exercise 1.4 - Setting up logging. ##
+
+## Exercise 1.5 - Reading from a file. ##
+
+## Exercise 1.6 - Sorting and iterating lists. ##
+
